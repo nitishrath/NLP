@@ -1,5 +1,10 @@
 import numpy as np
 import random
+import decimal
+
+# Precision to use
+decimal.getcontext().prec = 100
+
 
 def softmax(x):
     """
@@ -21,7 +26,20 @@ def softmax(x):
     """
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    #x = np.asarray([decimal.Decimal(el) for el in x], dtype=object)
+    #x.astype(np.float128)
+    x=x.astype(float)
+    if x.ndim==1:
+    	x=x-np.min(x)
+        S=np.sum(np.exp(x))
+        x= np.exp(x)/S
+    elif x.ndim==2:
+        M,N=x.shape
+        for n in range(M):
+			x[n,:]=x[n,:]-np.min(x[n,:])
+			S=np.sum(np.exp(x[n,:]))
+			x[n,:]=np.exp(x[n,:])/S
+    #raise NotImplementedError
     ### END YOUR CODE
     
     return x
@@ -63,4 +81,4 @@ def test_softmax():
 
 if __name__ == "__main__":
     test_softmax_basic()
-    test_softmax()
+    #test_softmax()
