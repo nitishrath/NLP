@@ -16,6 +16,7 @@ def forward_backward_prop(data, labels, params, dimensions):
     ### Unpack network parameters (do not modify)
     ofs = 0
     Dx, H, Dy = (dimensions[0], dimensions[1], dimensions[2])
+    #print (params)
 
     W1 = np.reshape(params[ofs:ofs+ Dx * H], (Dx, H))
     ofs += Dx * H
@@ -26,11 +27,21 @@ def forward_backward_prop(data, labels, params, dimensions):
     b2 = np.reshape(params[ofs:ofs + Dy], (1, Dy))
 
     ### YOUR CODE HERE: forward propagation
-    raise NotImplementedError
-    ### END YOUR CODE
-    
-    ### YOUR CODE HERE: backward propagation
-    raise NotImplementedError
+    n=data.shape[0]
+    o12=np.dot(data,W1)+b1
+    o12=sigmoid(o12)
+    out=np.dot(o12,W2)+b2
+    out=softmax(out)
+    cost=-1*np.sum(labels*np.log(out))/n
+    dout=(out-labels)/n
+    gradW2=np.dot(o12.transpose(),dout)
+    gradb2=np.sum(dout, axis=0)   
+    do12=np.dot(dout,W2.transpose())
+    do12= do12*o12*(1-o12)
+    gradW1=np.dot(data.transpose(), do12)
+    gradb1=np.sum(do12, axis=0)	
+
+#raise NotImplementedError
     ### END YOUR CODE
     
     ### Stack gradients (do not modify)
@@ -55,7 +66,6 @@ def sanity_check():
     
     params = np.random.randn((dimensions[0] + 1) * dimensions[1] + (
         dimensions[1] + 1) * dimensions[2], )
-
     gradcheck_naive(lambda params: forward_backward_prop(data, labels, params,
         dimensions), params)
 
@@ -68,7 +78,7 @@ def your_sanity_checks():
     """
     print "Running your sanity checks..."
     ### YOUR CODE HERE
-    raise NotImplementedError
+#    raise NotImplementedError
     ### END YOUR CODE
 
 if __name__ == "__main__":
