@@ -87,10 +87,10 @@ print ""
 # Pick the best regularization parameters
 BEST_REGULARIZATION = None
 BEST_WEIGHTS = None
-if bestAcc < devAccuracy:
+if acc < devAccuracy:
 	acc = devAccuracy
-    reg = regularization
-    wt = weights
+	reg=regularization
+	wt = weights
 
 ### YOUR CODE HERE 
 
