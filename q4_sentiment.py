@@ -54,7 +54,7 @@ for regularization in REGULARIZATION:
 
     # We will do batch optimization
     weights = sgd(lambda weights: softmax_wrapper(trainFeatures, trainLabels, 
-        weights, regularization), weights, 3.0, 10000, PRINT_EVERY=100)
+        weights, regularization), weights, 3.0, 7000, PRINT_EVERY=50)
 
     # Test on train set
     _, _, pred = softmaxRegression(trainFeatures, trainLabels, weights)
@@ -87,10 +87,9 @@ print ""
 # Pick the best regularization parameters
 BEST_REGULARIZATION = None
 BEST_WEIGHTS = None
-if acc < devAccuracy:
-	acc = devAccuracy
-	reg=regularization
-	wt = weights
+acc = devAccuracy
+reg=regularization
+wt = weights
 
 ### YOUR CODE HERE 
 
